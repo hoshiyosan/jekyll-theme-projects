@@ -1,0 +1,60 @@
+<style>
+    body {
+        padding-left: 300px !important;
+    }
+
+    @media only screen and (max-width : 992px) {
+        body {
+            padding-left: 0 ! important;
+        }
+    }
+</style>
+
+<style>
+    .sidenav-nav ul {
+        padding-left: 1.5em;
+    }
+</style>
+
+<!-- Main navigation -->
+<ul id="slide-out" class="nav sidenav sidenav-fixed">
+    <li>
+        <a id="logo-container" style="display: inline-block; height: 100%" href="/" class="brand-logo">
+            <img id="front-page-logo" style="display: inline-block; padding: 1rem 0; max-width: 100%" src="https://upload.wikimedia.org/wikipedia/commons/b/bd/Logo_Enssat.png">
+        </a>
+    </li>
+
+    <li>
+        <div style="position: relative">
+            <input  placeholder="Browse projects" style="line-height: 1rem; padding: 0 2rem">
+            <i class="fa fa-search" style="position: absolute; right: 1rem; top: 1.2rem"></i>
+        </div>
+        
+    </li>
+
+    {%- for nav_item in nav %}
+    {%- if nav_item.children %}
+    <li class="dropdown{% if nav_item.active %} active{% endif %}">
+        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">{{ nav_item.title }} <b
+                class="caret"></b></a>
+        <ul class="dropdown-menu">
+            {%- for nav_item in nav_item.children %}
+            {% include "layout/nav-sub.html" %}
+            {%- endfor %}
+        </ul>
+    </li>
+    {%- else %}
+    <li class="navitem{% if nav_item.active %} active{% endif %}">
+        <a href="{{ nav_item.url|url }}" class="nav-link">{{ nav_item.title }}</a>
+    </li>
+    {%- endif %}
+    {%- endfor %}
+</ul>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const options = {};
+        var elems = document.querySelectorAll('.sidenav');
+        var instances = M.Sidenav.init(elems, options);
+    });
+</script>

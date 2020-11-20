@@ -3,3 +3,9 @@ layout: default
 ---
 
 {{ content }}
+
+<ul>
+    {% for rapper in page.rappers %}
+    <li>{{rapper}}</li>
+    {% endfor %}
+</ul>
