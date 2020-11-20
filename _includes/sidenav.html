@@ -8,17 +8,35 @@
             padding-left: 0 ! important;
         }
     }
-</style>
 
-<style>
-    .sidenav-nav ul {
-        padding-left: 1.5em;
+    .sidenav .collapsible-body a{
+        font-weight: normal !important;
     }
 </style>
 
+
+<!-- Workout distinct sidenav sections -->
+{% assign sections = '' | split: '' %}
+{% for page in site.pages %}
+{% for section in page.sections %}
+    {% assign sections = sections | push: section %}
+{% endfor %}
+{% endfor %}
+{% assign sections = sections | uniq | sort %}
+
+<!-- Workout sidenav sections headings-->
+{% assign sectionsHeadings = '' | split: '' %}
+{% for section in sections %}
+    {% assign sectionsHeadings = sectionsHeadings | push: site.sections[section] %}
+{% endfor %}
+
+<!-- Iterate through headings -->
+{% assign numberOfHeadings = sectionsHeadings | size | minus: 1 %}
+
+
 <!-- Main navigation -->
 <ul id="slide-out" class="nav sidenav sidenav-fixed">
-    <li>
+    <li class="logo">
         <a id="logo-container" style="display: inline-block; height: 100%" href="/" class="brand-logo">
             <img id="front-page-logo" style="display: inline-block; padding: 1rem 0; max-width: 100%" src="https://upload.wikimedia.org/wikipedia/commons/b/bd/Logo_Enssat.png">
         </a>
@@ -29,32 +47,42 @@
             <input  placeholder="Browse projects" style="line-height: 1rem; padding: 0 2rem">
             <i class="fa fa-search" style="position: absolute; right: 1rem; top: 1.2rem"></i>
         </div>
-        
     </li>
 
-    {%- for nav_item in nav %}
-    {%- if nav_item.children %}
-    <li class="dropdown{% if nav_item.active %} active{% endif %}">
-        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">{{ nav_item.title }} <b
-                class="caret"></b></a>
-        <ul class="dropdown-menu">
-            {%- for nav_item in nav_item.children %}
-            {% include "layout/nav-sub.html" %}
-            {%- endfor %}
+    <li class="no-padding">
+        <ul class="collapsible collapsible-accordion">
+            {% for i in (0..numberOfHeadings) %}
+            <li>
+                <a class="collapsible-header waves-effect waves-teal" tabindex="0">
+                    {{ sectionsHeadings[i] }}
+                </a>
+                <div class="collapsible-body">
+                <ul>
+                    {% for node in site.pages %}
+                    {% if node.sections contains sections[i] %}
+                    <li>
+                        <a href="{{node.url}}">{{node.title}}</a>
+                    </li>
+                    {% endif %}
+                    {% endfor %}
+                </ul>
+            </li>
+            {% endfor %}
         </ul>
     </li>
-    {%- else %}
-    <li class="navitem{% if nav_item.active %} active{% endif %}">
-        <a href="{{ nav_item.url|url }}" class="nav-link">{{ nav_item.title }}</a>
-    </li>
-    {%- endif %}
-    {%- endfor %}
 </ul>
+
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const options = {};
-        var elems = document.querySelectorAll('.sidenav');
-        var instances = M.Sidenav.init(elems, options);
+        // initialize sidenav behaviour
+        const sidenavOptions = {};
+        const sidenav = document.querySelector('.sidenav');
+        M.Sidenav.init(sidenav, sidenavOptions);
+
+        // initialize collapsible behaviour
+        const collapsibleOptions = {};
+        const collapsibles = document.querySelectorAll('.collapsible');
+        M.Collapsible.init(collapsibles, collapsibleOptions);
     });
 </script>
