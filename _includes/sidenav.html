@@ -9,21 +9,23 @@
         }
     }
 
-    .sidenav .collapsible-body a{
+    .sidenav .collapsible-body a {
         font-weight: normal !important;
     }
 
-    #sections ul{
+    #sections ul {
         padding-left: 1rem;
     }
 </style>
 
 
+{% assign logo = site.logo %}
+
 <!-- Workout distinct sidenav sections -->
 {% assign sections = '' | split: '' %}
 {% for page in site.pages %}
 {% for section in page.sections %}
-    {% assign sections = sections | push: section %}
+{% assign sections = sections | push: section %}
 {% endfor %}
 {% endfor %}
 {% assign sections = sections | uniq | sort %}
@@ -31,7 +33,7 @@
 <!-- Workout sidenav sections headings-->
 {% assign sectionsHeadings = '' | split: '' %}
 {% for section in sections %}
-    {% assign sectionsHeadings = sectionsHeadings | push: site.sections[section] %}
+{% assign sectionsHeadings = sectionsHeadings | push: site.sections[section] %}
 {% endfor %}
 
 <!-- Iterate through headings -->
@@ -41,8 +43,9 @@
 <!-- Main navigation -->
 <ul id="slide-out" class="nav sidenav sidenav-fixed">
     <li class="logo">
-        <a id="logo-container" style="display: inline-block; height: 100%" href="/" class="brand-logo">
-            <img id="front-page-logo" style="display: inline-block; padding: 1rem 0; max-width: 100%" src="https://upload.wikimedia.org/wikipedia/commons/b/bd/Logo_Enssat.png">
+        <a href="http://www.enssat.fr/fr_FR/formations/formation-ingenieur-par-apprentissage" target="enssat"
+            id="logo-container" style="display: inline-block; height: 100%" href="/" class="brand-logo">
+            <img id="front-page-logo" style="display: inline-block; padding: 1rem 0; max-width: 100%" src="{{logo}}">
         </a>
     </li>
 
@@ -54,7 +57,7 @@
 
     <li>
         <div style="position: relative">
-            <input  placeholder="Browse projects" style="line-height: 1rem; padding: 0 2rem">
+            <input placeholder="Browse projects" style="line-height: 1rem; padding: 0 2rem">
             <i class="fa fa-search" style="position: absolute; right: 1rem; top: 1.2rem"></i>
         </div>
     </li>
@@ -64,7 +67,7 @@
             {% include sidenav-items.html items=site.sidenav.items %}
         </ul>
     </li>
-    
+
     <!--
     <li class="no-padding">
         <ul class="collapsible collapsible-accordion">
