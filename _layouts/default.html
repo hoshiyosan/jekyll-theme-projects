@@ -12,12 +12,9 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
 </head>
 <body>
-    {% include header.html %}
     {% include sidenav.html %}
-
-    <main style="padding: 2rem; max-width: 70rem; margin: 0 auto;">
-        {{ content }}
-    </main>
+    
+    {{content}}
     
     <!-- Materialize JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>

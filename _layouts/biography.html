@@ -1,0 +1,60 @@
+---
+layout: default
+---
+
+<style>
+#cover{
+    width: 100%;
+    height: 15rem;
+    background: url('/assets/lake.jpg');
+    background-size: cover;
+    position: relative;
+}
+
+.profile{
+    position: absolute;
+    max-width: 10rem;
+    right: 0;
+    margin: 2.5rem;
+}
+</style>
+
+<div id="cover">
+    <img src="/assets/profile.jpg" class="profile circle" alt="picture_me">
+</div>
+
+<main style="padding: 5rem">
+    {{content}}
+
+    <h3>Networks</h3>
+
+    <a class="btn-floating pulse btn-large z-depth-5 blue">
+        <i class="fab fa-linkedin"></i>
+    </a>
+    
+    <a class="btn-floating pulse btn-large z-depth-5 black">
+        <i class="fab fa-github"></i>
+    </a>
+    
+    <a class="btn-floating pulse btn-large z-depth-5 orange darken-3">
+        <i class="fab fa-gitlab"></i>
+    </a>
+
+    <h3>Published libraries / packages</h3>
+
+    <a class="btn-floating pulse btn-large z-depth-5 yellow">
+        <i class="fab fa-python"></i>
+    </a>
+
+    <a class="btn-floating pulse btn-large z-depth-5 red">
+        <i class="fa fa-gem"></i>
+    </a>
+
+    <a class="btn-floating pulse btn-large z-depth-5 red">
+        <i class="fab fa-npm"></i>
+    </a>
+
+    <a class="btn-floating pulse btn-large z-depth-5 orange">
+        <i class="fab fa-stack-overflow"></i>
+    </a>
+</main>
