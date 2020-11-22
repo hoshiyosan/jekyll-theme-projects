@@ -1,0 +1,86 @@
+<style>
+    .toc ul {
+        padding-left: 1rem;
+        font-size: 1.2rem;
+    }
+
+    #toc-floating {
+        display: none;
+        position: fixed;
+        top: 0;
+        right: 0;
+        padding: 3rem;
+        background: rgba(255, 255, 255, 0.8);
+    }
+</style>
+
+<div id="markdown" style="display: none">{{page.content}}</div>
+<ul id="toc-inline" class="toc">{{page.content}}</ul>
+<ul id="toc-floating" class="toc" style="position: fixed; top: 3rem; right: 3rem;">{{page.content}}</ul>
+
+<script>
+    (() => {
+        function extractHeadings(html) {
+            return [...html.matchAll(/(^|\n)#+\s.+(\n|$)/g)].map(result => {
+                return result[0].replace(/\n/g, '');
+            });
+        }
+
+        const markdown = document.getElementById('markdown').innerHTML;
+        const headings = extractHeadings(markdown);
+
+        let string = '';
+        let currentLvl = 1;
+
+        for (k = 0; k < headings.length; k++) {
+            const parts = headings[k].split(' ');
+            const lvl = parts[0].length;
+            const heading = parts.slice(1).join(' ');
+            console.log(lvl);
+            if (lvl > currentLvl) {
+                for (i = currentLvl; i < lvl; i++) {
+                    string += '<li>\n<ul>\n';
+                }
+            } else if (lvl < currentLvl) {
+                for (i = lvl; i < currentLvl; i++) {
+                    string += '</ul>\n</li>\n';
+                }
+            }
+
+            const anchor = heading.replace(/('|’)/g, '').replace(/\s/g, '-').toLowerCase();
+            string += `<li><a href="#${anchor}">${heading}</a></li>\n`;
+            console.log(anchor);
+
+            currentLvl = lvl;
+        }
+
+        function getDocumentOffsetPosition(el) {
+            var position = {
+                top: el.offsetTop,
+                left: el.offsetLeft
+            };
+            if (el.offsetParent) {
+                var parentPosition = getDocumentOffsetPosition(el.offsetParent);
+                position.top += parentPosition.top;
+                position.left += parentPosition.left;
+            }
+            return position;
+        }
+
+        const tocInline = document.getElementById('toc-inline');
+        const tocFloating = document.getElementById('toc-floating');
+        const tocInlineOffset = tocInline.getBoundingClientRect().bottom;
+
+        tocInline.innerHTML = string;
+        tocFloating.innerHTML = string;
+
+        document.addEventListener('scroll', (evt) => {
+            if (window.pageYOffset > tocInlineOffset) {
+                tocFloating.style.display = 'block';
+            } else {
+                tocFloating.style.display = 'none';
+            }
+            console.log(evt);
+        });
+    })();
+</script>
